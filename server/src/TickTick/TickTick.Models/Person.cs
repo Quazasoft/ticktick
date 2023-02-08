@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TickTick.Models.Dtos;
 
 namespace TickTick.Models
 {
@@ -44,11 +45,27 @@ namespace TickTick.Models
             if (!string.IsNullOrEmpty(this.SocialSecurityNumber) && !string.IsNullOrEmpty(other?.SocialSecurityNumber))
             {
                 return this.SocialSecurityNumber == other.SocialSecurityNumber;
-            } else
+            }
+            else
             {
                 return this.PublicId == other?.PublicId;
             }
         }
 
+
+        // Dto is afscherming van bepaalde properties
+        public PersonDto ConvertToDto()
+        {
+            return new PersonDto()
+            {
+                PublicId = this.PublicId,
+                FirstName = this.FirstName,
+                LastName = this.LastName,
+                MiddleName = this.MiddleName,
+                DateOfBirth = this.DateOfBirth,
+                Email = this.Email
+            };
+
+        }
     }
 }
