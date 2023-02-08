@@ -15,7 +15,7 @@ namespace TickTick.Models.Dtos
         public DateTime? DateOfBirth { get; set; }
         public string Email { get; set; }
 
-        //public IList<LocationDto> Children { get;}
+        public IList<LocationDto> Locations { get; set; }
 
     }
 }
