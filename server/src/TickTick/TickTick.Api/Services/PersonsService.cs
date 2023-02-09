@@ -1,5 +1,6 @@
 ﻿using TickTick.Api.Dtos.Persons;
 using TickTick.Models;
+using TickTick.Models.Dtos;
 
 namespace TickTick.Api.Services
 {
@@ -23,6 +24,18 @@ namespace TickTick.Api.Services
                 dto.Email);
 
             person.CreatePublicId();
+            return person.ConvertToDto();
+        }
+
+
+        public PersonDto UpdatePerson(Guid personId, PersonDto dto)
+        {
+            // TODO: use a person from the DB
+            Person person = new Person(
+                dto.FirstName,
+                dto.LastName,
+                dto.Email);
+            person.Update(dto);
             return person.ConvertToDto();
         }
     }

@@ -65,6 +65,25 @@ namespace TickTick.Api.Controllers
         }
 
 
+        [HttpGet("{personId:guid}/locations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
+        public IActionResult GetLocations(Guid personId)
+        {
+            // TODO: Haal een persoon op
+            List<LocationDto> locations = new List<LocationDto>() 
+            {
+                new LocationDto("Grapheusstraat", "31", "Deurne", "2100", "Belgium"),
+                new LocationDto("Kladdenbergstraat", "7", "Edegem", "2650", "Belgium")
+            };
+            
+            return Ok(new Response<IEnumerable<Location>>(locations));
+        }
+
+
         [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -91,6 +110,17 @@ namespace TickTick.Api.Controllers
         }
 
 
+        [HttpPut("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
+        public IActionResult Put(Guid id, [FromBody] PersonDto person)
+        {
+            PersonDto newP = svc.UpdatePerson(id, person);
+            return Ok(newP);
+        }
 
     }
 }

@@ -44,6 +44,32 @@ namespace TickTick.Models
             this.IsDeleted = true;
         }
 
+
+        public void AddLocation(Location loc)
+        {
+            if (this.Addresses == null)
+            {
+                this.Addresses = new List<Location>();
+            }
+            this.Addresses.Add(loc);
+        }
+
+        public void RemoveLocation(Location loc)
+        {
+            if (this.Addresses != null)
+            {
+                this.Addresses.Remove(loc);
+            }
+        }
+
+        public void RemoveLocation(long id)
+        {
+            if (this.Addresses != null)
+            {
+                this.Addresses.Remove(this.Addresses.FirstOrDefault(l => l.Id == id));
+            }
+        }
+
         public override string ToString()
         {
             //return FirstName + LastName;
