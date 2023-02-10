@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TickTick.Api;
 using TickTick.Api.Services;
+using TickTick.Data;
 
 internal class Program
 {
@@ -8,8 +10,14 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // Add services to the container.
 
+        // Database configureren
+        builder.Services.AddDbContext<TickTickDbContext>(options =>
+        {
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        });
+
+        // Add services to the container.
         builder.Services.AddControllers();
         builder.Services.AddSwaggerGen(config =>
         {

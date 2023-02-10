@@ -64,7 +64,7 @@ namespace TickTick.Api.Controllers
             return Ok(person.ConvertToDto());
         }
 
-
+        /*
         [HttpGet("{personId:guid}/locations")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -81,7 +81,7 @@ namespace TickTick.Api.Controllers
             };
             
             return Ok(new Response<IEnumerable<Location>>(locations));
-        }
+        }*/
 
 
         [HttpDelete("{id:Guid}")]

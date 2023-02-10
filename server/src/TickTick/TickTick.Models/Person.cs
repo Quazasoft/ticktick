@@ -15,9 +15,9 @@ namespace TickTick.Models
         public string? MiddleName { get; set; }
         public string? SocialSecurityNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
+        public DateTime? DateOfDeath { get; set; }
         public string? PhoneNumber { get; set; }
         public string Email { get; set; }
-        public IList<Location>? Addresses { get; set; }
         public bool IsDeleted { get; private set; }
 
 
@@ -28,7 +28,6 @@ namespace TickTick.Models
             this.Email = email;
         }
 
-
         public void Update(PersonDto dto)
         {
             this.FirstName = dto.FirstName;
@@ -36,7 +35,6 @@ namespace TickTick.Models
             this.MiddleName = dto.MiddleName;
             this.DateOfBirth = dto.DateOfBirth;
             this.Email = dto.Email;
-
         }
 
         public void Delete()
@@ -44,30 +42,12 @@ namespace TickTick.Models
             this.IsDeleted = true;
         }
 
-
-        public void AddLocation(Location loc)
-        {
-            if (this.Addresses == null)
-            {
-                this.Addresses = new List<Location>();
-            }
-            this.Addresses.Add(loc);
-        }
-
-        public void RemoveLocation(Location loc)
-        {
-            if (this.Addresses != null)
-            {
-                this.Addresses.Remove(loc);
-            }
-        }
-
         public void RemoveLocation(long id)
         {
-            if (this.Addresses != null)
+            /*if (this.Addresses != null)
             {
                 this.Addresses.Remove(this.Addresses.FirstOrDefault(l => l.Id == id));
-            }
+            }*/
         }
 
         public override string ToString()
