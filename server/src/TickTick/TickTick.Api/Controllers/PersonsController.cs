@@ -1,22 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using TickTick.Api.Dtos.Persons;
+using TickTick.Api.RequestHandlers.Persons;
 using TickTick.Api.ResponseWrappers;
 using TickTick.Api.Services;
 using TickTick.Models;
-
+using TickTick.Repositories;
+using TickTick.Repositories.Base;
 
 namespace TickTick.Api.Controllers
 {
     [Route("/v{v:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
-    public class PersonsController : ControllerBase
+    public class PersonsController : ApiControllerBase
     {
         private readonly IPersonsService svc;
-        public PersonsController(IPersonsService service)
+        private readonly IRepository<Person> repo;
+
+        public PersonsController(IPersonsService service, IRepository<Person> repo, IMediator mediator)
+            :base(mediator)
         {
             this.svc = service;
+            this.repo = repo;
         }
 
         [HttpGet]
@@ -25,17 +34,20 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>),200)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            try
-            {
-                List<Person> people = new List<Person>();
+            return await ExecuteRequest(new GetAllPersonsRequest());
 
-                people.Add(new Person("John", "Doe", "john@mail.com"));
-                people.Add(new Person("Kevin", "DeRudder", "kevin.derudder@gmail.com"));
+            /*try
+            {
+                var persons = await repo.GetAllAsync(p => p.IsDeleted == false);
+
+                //List<Person> people = new List<Person>();
+                //people.Add(new Person("John", "Doe", "john@mail.com"));
+                //people.Add(new Person("Kevin", "DeRudder", "kevin.derudder@gmail.com"));
 
                 Response<IEnumerable<Person>> resp = new Response<IEnumerable<Person>>();
-                resp.Data = people;
+                resp.Data = persons;
 
                 return Ok(resp);
             }
@@ -46,7 +58,7 @@ namespace TickTick.Api.Controllers
                 r.Message = ex.Message;
                 r.StatusCode = System.Net.HttpStatusCode.InternalServerError;
                 return StatusCode(500, r);
-            }
+            }*/
             
         }
 
@@ -57,11 +69,13 @@ namespace TickTick.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             // TODO: Haal een persoon op
-            Person person = new Person("Kevin", "DeRudder", "kevin.derudder@gmail.com");
-            return Ok(person.ConvertToDto());
+            //Person person = new Person("Kevin", "DeRudder", "kevin.derudder@gmail.com");
+            //return Ok(person.ConvertToDto());
+
+            return await ExecuteRequest(new GetPersonRequest(id));
         }
 
         /*
@@ -97,16 +111,40 @@ namespace TickTick.Api.Controllers
         }
 
 
+        /*[HttpDelete("{id:Guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
+        public async Task<IActionResult> DeletePerson(Guid id)
+        {
+            
+            //svc.DeletePerson(id);
+            //return NoContent();
+        }*/
+
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PersonDto>), 200)]
-        public IActionResult Post([FromBody] AddPersonDto person)
+        public async Task<IActionResult> Post([FromBody] AddPersonDto person)
         {
-            PersonDto newP = svc.AddPerson(person);
-            return CreatedAtAction(nameof(Get), new { id = newP.PublicId }, person);
+
+            /*PersonDto newP = svc.AddPerson(person);
+
+            Person p = new Person(person.FirstName, person.LastName, person.Email);
+            repo.Add(p);
+            int i = await repo.SaveAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = newP.PublicId }, person);*/
+
+            // moet worden
+            return await ExecuteRequest(new AddPersonRequest(person));
+
         }
 
 

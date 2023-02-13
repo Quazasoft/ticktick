@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
@@ -21,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TickTick.Data\TickTick.Data.csproj" />
     <ProjectReference Include="..\TickTick.Models\TickTick.Models.csproj" />
+    <ProjectReference Include="..\TickTick.Repositories\TickTick.Repositories.csproj" />
   </ItemGroup>
 
 </Project>
