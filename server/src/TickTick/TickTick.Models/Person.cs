@@ -68,10 +68,6 @@ namespace TickTick.Models
             }
         }
 
-
-        
-        
-
         public void CreatePublicId()
         {
             this.PublicId = Guid.NewGuid();

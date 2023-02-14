@@ -17,6 +17,8 @@ namespace TickTick.Api.Controllers
             this.mediator = mediator;
         }
 
+        
+
         public async Task<IActionResult> ExecuteRequest<T>(IRequest<T> request)
         {
             var response = new Response<T>();

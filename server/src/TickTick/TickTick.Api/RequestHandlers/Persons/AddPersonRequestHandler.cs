@@ -15,7 +15,7 @@ namespace TickTick.Api.RequestHandlers.Persons
             this.person = person;
         }
     }
-    public class AddPersonRequestHandler : IRequestHandler<GetPersonRequest, PersonDto>
+    /*public class AddPersonRequestHandler : IRequestHandler<GetPersonRequest, PersonDto>
     {
         private readonly IRepository<Person> personsRepository;
 
@@ -41,7 +41,7 @@ namespace TickTick.Api.RequestHandlers.Persons
             int i = await repo.SaveAsync();
 
             return CreatedAtAction(nameof(Get), new { id = newP.PublicId }, person);*/
-        }
-    }
+        /*}
+    }*/
 }
 

@@ -13,6 +13,16 @@ using TickTick.Repositories.Base;
 
 namespace TickTick.Api.Controllers
 {
+    /*
+    [Authorize(Policy = "client1")]
+
+    // VOORBEELD
+    // service.AddAuthorization
+    // service.AddPolicy
+
+    [Produces("application.json")]
+    */
+
     [Route("/v{v:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
     [ApiController]
@@ -134,16 +144,16 @@ namespace TickTick.Api.Controllers
         public async Task<IActionResult> Post([FromBody] AddPersonDto person)
         {
 
-            /*PersonDto newP = svc.AddPerson(person);
+            PersonDto newP = svc.AddPerson(person);
 
             Person p = new Person(person.FirstName, person.LastName, person.Email);
             repo.Add(p);
             int i = await repo.SaveAsync();
 
-            return CreatedAtAction(nameof(Get), new { id = newP.PublicId }, person);*/
+            return CreatedAtAction(nameof(Get), new { id = newP.PublicId }, person);
 
             // moet worden
-            return await ExecuteRequest(new AddPersonRequest(person));
+            //return await ExecuteRequest(new AddPersonRequest(person));
 
         }
 
